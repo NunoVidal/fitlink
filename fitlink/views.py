@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Planos
+from .models import *
 # Create your views here.
 
 def index(request):
@@ -31,3 +31,7 @@ def dashboard(request):
 
 def rtl(request):
     return render(request,'rtl.html',{})
+
+def marketplace(request):
+    context = PlanoTreino.objects.all()
+    return render(request,'marketplace.html',{"planos": context})

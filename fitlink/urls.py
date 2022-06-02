@@ -13,4 +13,5 @@ urlpatterns = [
     path('tables',views.tables,name="tables"),
     path('dashboard',views.dashboard,name="dashboard"),
     path('rtl',views.rtl,name="rtl"),
+    path('marketplace',views.marketplace,name="marketplace"),
 ] 
