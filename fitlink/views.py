@@ -38,4 +38,42 @@ def marketplace(request):
     return render(request,'marketplace.html',{"planos": context})
 
 def planMaker(request):
-    return render(request,'planMaker.html',{'nrBlocos': [1,2],'duracaoBloco': range(1,8)})
+    context = {
+        'blocos':[
+            {
+                'nr': 1,
+                'diaBloco':[{
+                        'nr': 1,
+                        'exercicios': []
+                     },
+                     {
+                        'nr': 2,
+                        'exercicios': []
+                     },
+                      {
+                        'nr': 3,
+                        'exercicios': []
+                     }]
+                
+            },
+             {
+               'nr': 2,
+             'diaBloco':[{
+                    'nr': 1,
+                    'exercicios': []
+                    },
+                    {
+                    'nr': 2,
+                    'exercicios': []
+                    },
+                    {
+                    'nr': 3,
+                    'exercicios': []
+                    }]
+             },
+            
+        ]
+    }
+    return render(request,'planMaker.html',{'defaults': context})
+
+
