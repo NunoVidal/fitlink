@@ -45,3 +45,8 @@ class Pagamento(models.Model):
     nrCartao = models.IntegerField()
     cvv = models.IntegerField()
     expireDate = models.DateField()
+
+class Exercicio(models.Model):
+    titulo = models.CharField(max_length = 255)
+    img = models.CharField(max_length=255)
+    descricao = models.TextField()

@@ -1,6 +1,11 @@
 
 {% extends "index.html" %}
 {% block content %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+        </div>
+    </div>
     <div class="container-fluid px-2 px-md-4">       
         <div class="col-md-7 mt-4">
             <div class="card">
@@ -27,7 +32,7 @@
                                    
                                 {% endfor %}
                                 <div class="text-end">
-                                    <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Adicionar exercicio</a>
+                                    <a class="btn bg-gradient-dark mb-0 "  id="btnAdder" href="#myModal"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Adicionar exercicio</a>
                                 </div>
                             </div>
                             </div>
@@ -43,5 +48,44 @@
           </div>
     </div>
   </div>
+  <div class="modal" id="myModal" role="dialog" tabindex="-1" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        </div>
+    </div>
+    </div>
+    <script src="./static/js/core/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ <script type="text/javascript">
+     $(document).ready(function() {
+
+        $(function () {
+            $('#btnAdder').on('click', function (event) {
+                event.preventDefault();
+                console.log("here");
+                getForm();
+            });
+
+
+        });
+
+
+        const getForm = (() =>
+            {
+                $.ajax({
+                    type: 'GET',
+                    url: "addExercicio",
+                    success: function (response) {
+                        console.log(response);
+                        $('#myModal').find('.modal-content').html(response);
+                        $("#myModal").modal("show");
+                    }
+                })}
+        );
+
+});
+ </script>
+
+ 
 {% endblock %}
   

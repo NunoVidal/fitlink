@@ -15,4 +15,5 @@ urlpatterns = [
     path('rtl',views.rtl,name="rtl"),
     path('marketplace',views.marketplace,name="marketplace"),
     path('planMaker',views.planMaker,name="planMaker"),
+    path('addExercicio', views.ExerciseAdder.as_view(), name='addExercicio'),
 ] 

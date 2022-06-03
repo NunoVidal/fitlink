@@ -1,5 +1,9 @@
 from django.shortcuts import render
 from .models import *
+from .forms import *
+from bootstrap_modal_forms.generic import BSModalCreateView
+from django.views import View
+from django.urls import reverse_lazy
 # Create your views here.
 
 def index(request):
@@ -77,3 +81,12 @@ def planMaker(request):
     return render(request,'planMaker.html',{'defaults': context})
 
 
+class ExerciseAdder(View):
+    template_name = 'addExercicioModal.html'
+    def get(self, request):
+        exercicios = Exercicio.objects.all()
+        for ex in exercicios:
+            ex.selected = False
+        context_data = {'Exercicios': exercicios}
+        return render(request,self.template_name,context_data)
+   
