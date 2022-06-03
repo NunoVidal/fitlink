@@ -12,7 +12,8 @@ def signup(request):
     return render(request,'sign-up.html',{})
 
 def profile(request):
-    return render(request,'profile.html',{})
+    context = PlanoTreino.objects.all().filter(refPersonalTrainer=PersonalTrainer.objects.get(username="larrywheels"))
+    return render(request,'profile.html',{"planos": context})
 
 def notifications(request):
     return render(request,'notifications.html',{})
