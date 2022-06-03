@@ -36,3 +36,6 @@ def rtl(request):
 def marketplace(request):
     context = PlanoTreino.objects.all()
     return render(request,'marketplace.html',{"planos": context})
+
+def planMaker(request):
+    return render(request,'planMaker.html',{'nrBlocos': [1,2],'duracaoBloco': range(1,8)})
