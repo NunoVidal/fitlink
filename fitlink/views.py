@@ -44,6 +44,7 @@ def marketplace(request):
 def planMaker(request):
     context = {
         'tiposPlano': TipoPlano.objects.all(),
+        'subscritores': Cliente.objects.all().filter(id__in=Subscricao.objects.values_list("refCliente_id").filter(refPT=PersonalTrainer.objects.get(username="larrywheels"))),
         'blocos':[
             {
                 'nr': 1,
@@ -79,6 +80,7 @@ def planMaker(request):
             
         ]
     }
+    print(context['subscritores'])
     return render(request,'planMaker.html',{'defaults': context})
 
 

@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "35da710e2289c81ad4c851436f6f1fe458410438483d7eb0fba7eb6eea216689"
+            "sha256": "2264d3f65551cb8fc802c8fcc574bb2d474ab2eb627f614ffdce7658c4d6a3ab"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.10"
+            "python_version": "3.9"
         },
         "sources": [
             {
@@ -39,6 +39,13 @@
             ],
             "index": "pypi",
             "version": "==4.0.5"
+        },
+        "django-bootstrap-modal-forms": {
+            "hashes": [
+                "sha256:be180b30892aa7b8012718dfca7586de7d0c143585bc44ed507d50569cdd41cd"
+            ],
+            "index": "pypi",
+            "version": "==2.2.0"
         },
         "django-extensions": {
             "hashes": [
@@ -163,7 +170,7 @@
                 "sha256:238e70234214138ed7b4e8a0fab0e5e13872edab3be586ab8198c407620e2ab9",
                 "sha256:8b536a8ec63dc0751342b3984193a3118f8fca2afe25752bb9b7fffd398552d3"
             ],
-            "markers": "sys_platform == 'win32'",
+            "index": "pypi",
             "version": "==2022.1"
         },
         "whitenoise": {

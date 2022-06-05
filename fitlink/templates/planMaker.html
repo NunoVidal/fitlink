@@ -13,13 +13,88 @@
               <span>Tipo de plano:</span>
             </div>
             <div class="col-md-3">
-              <select class="form-select" aria-label="Plano">
+              <select class="form-select" aria-label="Plano" id="tipoPlano">
                 {% for plano in defaults.tiposPlano %}
                 <option value="{{plano.id}}">{{plano.tipo}}</option>
                 {% endfor %}
               </select>
             </div>
           </div>
+          <br>
+            <div id="visivelOnlyOTP">
+            <div class="row">
+                <div class="col-md-3">
+                  <span>Preço:</span>
+                </div>
+                <div class="col-md-3">
+                  <input type="text" id="precoPlano" value="">
+                </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-3">
+              <span>Titulo:</span>
+            </div>
+            <div class="col-md-3">
+              <input type="titulo" id="precoPlano" value="">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-3">
+              <span>Descricao:</span>
+            </div>
+            <div class="col-md-3">
+              <textarea class="" id="descricao" rows="3"></textarea>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-3">
+              <span>Requisitos:</span>
+            </div>
+            <div class="col-md-3">
+              <textarea class="" id="requisitos" rows="3"></textarea>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-3">
+              <span>Nº Blocos:</span>
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="nrBlocos"  value="0">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-3">
+              <span>Duracao Blocos:</span>
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="duracaoBloco" value="0">
+            </div>
+          </div>
+          <br>
+          <button id="nextPhase">avancar</button>
+          <!--<div id="visivelOnlySubs">
+            <div class="row">
+              <div class="col-md-3">
+                <span>Preço:</span>
+              </div>
+              <div class="col-md-3">
+                <select class="form-select" aria-label="Plano" id="users">
+                  {% for sub in defaults.subscritores %}
+                  <option value="{{sub.id}}">{{sub.username}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+          </div>-->
+
+        </div>
+
+        </div>
         </div>
       </div>
     </div>
@@ -32,13 +107,13 @@
                 <h6 class="mb-0">Programação</h6>
               </div>
               <div class="card-body pt-4 p-3">
-                <ul class="list-group">
-                    {% for bloco in defaults.blocos %}
+                <ul class="list-group" id="blocosGroup">
+                  <!--  //{% for bloco in defaults.blocos %}
                   <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
                     <div class="d-flex flex-column">
                       <h6 class="mb-3 text-sm">Bloco #{{bloco.nr}}</h6>
                       <div class="accordion accordion-flush" id="accordion_{{bloco.nr}}">
-                        {% for diaBloco in bloco.diaBloco %}
+                        //{% for diaBloco in bloco.diaBloco %}
                         <div class="accordion-item"  style=" width: 600px;">
                             <h2 class="accordion-header" id="flush-heading{{bloco.nr}}{{diaBloco.nr}}">
                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{bloco.nr}}{{diaBloco.nr}}" aria-expanded="false" aria-controls="flush-collapse{{bloco.nr}}{{diaBloco.nr}}">
@@ -63,11 +138,11 @@
                             </div>
                         </div>
                         
-                        {% endfor %}
+                       // {% endfor %}
                     </div>
                     </div>
                   </li>
-                  {% endfor %}
+                  //{% endfor %}-->
                 </ul>
               </div>
             </div>
@@ -86,6 +161,9 @@
     <script src="./static/js/core/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
  <script type="text/javascript">
+
+     var nrBlocoGlob = 0;
+     var duracaoBlocoGlob = 0;
       function getForm (bloco,diaBloco){
               document.getElementById("blocoID").value = bloco;
               document.getElementById("diaBlocoID").value = diaBloco;
@@ -98,6 +176,11 @@
                       $("#myModal").modal("show");
                   }
               })
+        }
+
+        function generateBlock()
+        {
+          
         }
 
       $(document).ready(function(){
@@ -128,7 +211,38 @@
             }
             allBlocoEx.push({'bloco': idBloco,'idDiaBloco': idBlocoDia,'exercicio': exerciciosSelected});
           });
+          
+          $('#nextPhase').on('click', function (e) {
+            var  nrBlocoGlob = document.getElementById("nrBlocos").value;
+            var duracaoBlocoGlob = document.getElementById("duracaoBloco").value;
+            for(let i = 1; i <= nrBlocoGlob;i++)
+            {
+              var html = "<li class='list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg'>"
+                + "<div class='d-flex flex-column'>"
+                + "<h6 class='mb-3 text-sm'>Bloco #"+i+"</h6>"
+                + "<div class='accordion accordion-flush' id='accordion_"+i+"'>";
+                  for(let j = 1; j <= duracaoBlocoGlob;j++)
+                  {
+                    html += "<div class='accordion-item'  style=' width: 600px;'>"
+                        + "<h2 class='accordion-header' id='flush-heading"+i+""+j+"'>"
+                        + "<button class='accordion-button collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#flush-collapse"+i+""+j+"' aria-expanded='false' aria-controls='flush-collapse"+i+""+j+"'>"
+                        +  "Dia "+j+"</button></h2>"
+                        + "<div id='flush-collapse"+i+""+j+"' class='accordion-collapse collapse' aria-labelledby='flush-heading"+i+""+j+"' data-bs-parent='#accordion_"+i+"'>"
+                        + "<div class='accordion-body'>"
+                         + "<div class='row'>"
+                        + "<div class='col-md-6'> </div>"
+                        + "<div class='col-md-3'><p class='text-right'>Séries</p></div>"
+                        + "<div class='col-md-3'><p>Repetições</p></div>"
+                        + "</div><hr> <div id='list_exercicios"+i+""+j+"'></div>"
+                        + "<a class='btn bg-gradient-dark mb-0' id='btnAdder' onclick='getForm("+i+","+j+")'><i class='material-icons text-sm'>add</i>&nbsp;&nbsp;Adicionar exercicio</a> </div> </div></div>";
+                            
+                  }
+                    html += "</div></div></li>";
 
+                    $( "#blocosGroup" ).append(html);
+            }
+            
+          });
           
 
       });

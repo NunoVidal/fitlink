@@ -50,3 +50,8 @@ class Exercicio(models.Model):
     titulo = models.CharField(max_length = 255)
     img = models.CharField(max_length=255)
     descricao = models.TextField()
+
+
+class Subscricao(models.Model):
+    refPT = models.ForeignKey(PersonalTrainer, on_delete=models.CASCADE)
+    refCliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
