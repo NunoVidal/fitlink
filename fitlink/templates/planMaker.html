@@ -1,11 +1,30 @@
 
 {% extends "index.html" %}
 {% block content %}
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content"></div>
+<div class="container-fluid px-2 px-md-4">       
+  <div class="col-md-7 mt-4">
+      <div class="card">
+        <div class="card-header pb-0 px-3">
+          <h6 class="mb-0">Detalhes do Plano</h6>
         </div>
+        <div class="card-body pt-4 p-3">
+          <div class="row">
+            <div class="col-md-3">
+              <span>Tipo de plano:</span>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select" aria-label="Plano">
+                {% for plano in defaults.tiposPlano %}
+                <option value="{{plano.id}}">{{plano.tipo}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+</div>
+</div>
     <div class="container-fluid px-2 px-md-4">       
         <div class="col-md-7 mt-4">
             <div class="card">
@@ -20,23 +39,30 @@
                       <h6 class="mb-3 text-sm">Bloco #{{bloco.nr}}</h6>
                       <div class="accordion accordion-flush" id="accordion_{{bloco.nr}}">
                         {% for diaBloco in bloco.diaBloco %}
-                        <div class="accordion-item">
+                        <div class="accordion-item"  style=" width: 600px;">
                             <h2 class="accordion-header" id="flush-heading{{bloco.nr}}{{diaBloco.nr}}">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{bloco.nr}}{{diaBloco.nr}}" aria-expanded="false" aria-controls="flush-collapse{{bloco.nr}}{{diaBloco.nr}}">
-                                Dia {{diaBloco.nr}}
-                            </button>
+                               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{bloco.nr}}{{diaBloco.nr}}" aria-expanded="false" aria-controls="flush-collapse{{bloco.nr}}{{diaBloco.nr}}">
+                                    Dia {{diaBloco.nr}}</button>
+                                
                             </h2>
                             <div id="flush-collapse{{bloco.nr}}{{diaBloco.nr}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{bloco.nr}}{{diaBloco.nr}}" data-bs-parent="#accordion_{{bloco.nr}}">
                             <div class="accordion-body">
-                                {% for exercicio in diaBloco.exercicios %}
-                                   
-                                {% endfor %}
-                                <div class="text-end">
-                                    <a class="btn bg-gradient-dark mb-0 "  id="btnAdder" href="#myModal"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Adicionar exercicio</a>
+                                <div class="row">
+                                  <div class="col-md-6"> </div>
+                                  <div class="col-md-3"><p class="text-right">Séries</p></div>
+                                  <div class="col-md-3"><p>Repetições</p></div>
                                 </div>
+                                <hr>
+                                <div id="list_exercicios{{bloco.nr}}{{diaBloco.nr}}">
+
+                                </div>
+                                
+                                <a class="btn bg-gradient-dark mb-0 " id="btnAdder" onclick="getForm('{{bloco.nr}}','{{diaBloco.nr}}')"><i class="material-icons text-sm">add</i>&nbsp;&nbsp;Adicionar exercicio</a>
+                                
                             </div>
                             </div>
                         </div>
+                        
                         {% endfor %}
                     </div>
                     </div>
@@ -46,44 +72,68 @@
               </div>
             </div>
           </div>
+          <button id="submit">guardar</button>
     </div>
   </div>
   <div class="modal" id="myModal" role="dialog" tabindex="-1" style="display: none;">
+    <input type="hidden" id="blocoID" value="">
+    <input type="hidden" id="diaBlocoID" value="">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
         </div>
     </div>
-    </div>
+  </div>
     <script src="./static/js/core/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
  <script type="text/javascript">
-     $(document).ready(function() {
+      function getForm (bloco,diaBloco){
+              document.getElementById("blocoID").value = bloco;
+              document.getElementById("diaBlocoID").value = diaBloco;
+              $.ajax({
+                  type: 'GET',
+                  url: "addExercicio",
+                  success: function (response) {
+                      
+                      $('#myModal').find('.modal-content').html(response);
+                      $("#myModal").modal("show");
+                  }
+              })
+        }
 
-        $(function () {
-            $('#btnAdder').on('click', function (event) {
-                event.preventDefault();
-                console.log("here");
-                getForm();
-            });
-
-
-        });
-
-
-        const getForm = (() =>
+      $(document).ready(function(){
+          var allBlocoEx  = [];
+          $('#myModal').on('hidden.bs.modal', function (e) {
+            var exerciciosSelected = []
+            var ids = document.getElementsByClassName("hiddenExercicioID");
+            var idBloco = document.getElementById("blocoID").value;
+            var idBlocoDia = document.getElementById("diaBlocoID").value;
+            for(let i = 0; i < ids.length;i++)
             {
-                $.ajax({
-                    type: 'GET',
-                    url: "addExercicio",
-                    success: function (response) {
-                        console.log(response);
-                        $('#myModal').find('.modal-content').html(response);
-                        $("#myModal").modal("show");
-                    }
-                })}
-        );
+              var idEX = ids[i].attributes.value.value;
+              var checkbox = document.getElementById("check_"+idEX);
+              var label = document.getElementById("label_"+idEX);
+              if(checkbox.checked == true)
+              {
+                exerciciosSelected.push({'id': idEX,'label': label.innerText,'reps': 0,'sets': 0});
+              }
+            }
+            var parent = document.getElementById("list_exercicios");
+            for(let i = 0; i < exerciciosSelected.length;i++)
+            {
+              $( "#list_exercicios"+idBloco+ idBlocoDia).append(
+                "<div class='row'><div class='col-md-6'>"+exerciciosSelected[i].label+"</div>"
+                +"<div class='col-md-3 text-right'><input type='text' class='form-control border border-secondary' id='sets"+idEX+idBloco+idBlocoDia+"'/></div>" 
+                +"<div class='col-md-3 text-right'><input type='text' class='form-control border border-secondary' id='reps"+idEX+idBloco+idBlocoDia+"'/></div></div><br>"
+                );
+            }
+            allBlocoEx.push({'bloco': idBloco,'idDiaBloco': idBlocoDia,'exercicio': exerciciosSelected});
+          });
 
-});
+          
+
+      });
+        
+     
  </script>
 
  

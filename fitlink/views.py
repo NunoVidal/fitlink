@@ -43,6 +43,7 @@ def marketplace(request):
 
 def planMaker(request):
     context = {
+        'tiposPlano': TipoPlano.objects.all(),
         'blocos':[
             {
                 'nr': 1,

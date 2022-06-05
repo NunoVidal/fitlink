@@ -14,8 +14,9 @@
             {% for ex in Exercicios %}
             <li class="list-group-item rounded-0">
                 <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" id="customCheck1" type="checkbox" checked="{{ex.selected}}">
-                    <label class="cursor-pointer font-italic d-block custom-control-label" for="customCheck1">{{ex.titulo}}</label>
+                    <input class="custom-control-input" id="check_{{ex.id}}" type="checkbox" checked="{{ex.selected}}">
+                    <label class="cursor-pointer font-italic d-block custom-control-label" id="label_{{ex.id}}" for="customCheck1">{{ex.titulo}}</label>
+                    <input type="hidden" class="hiddenExercicioID" value="{{ex.id}}">
                 </div>
             </li>
            
