@@ -97,3 +97,8 @@ class PlanAdder(View):
         )
 
         return HttpResponse(content=b'Sucesso', content_type=None, status=200, reason=None, charset=None, headers=None)
+
+
+
+def detalhesPlano(request):
+    return render(request,'detalhesPlano.html',{})
