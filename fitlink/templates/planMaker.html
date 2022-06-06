@@ -1,6 +1,9 @@
 
 {% extends "index.html" %}
 {% block content %}
+
+<form action ="addPlano" method="POST">
+  {% csrf_token %}
 <div class="container-fluid px-2 px-md-4">       
   <div class="col-md-7 mt-4">
       <div class="card">
@@ -13,7 +16,7 @@
               <span>Tipo de plano:</span>
             </div>
             <div class="col-md-3">
-              <select class="form-select" aria-label="Plano" id="tipoPlano">
+              <select class="form-select form-control" style="border: 1px solid #d2d6da;" aria-label="Plano" id="tipoPlano" name="tipoPlano">
                 {% for plano in defaults.tiposPlano %}
                 <option value="{{plano.id}}">{{plano.tipo}}</option>
                 {% endfor %}
@@ -27,26 +30,44 @@
                   <span>Preço:</span>
                 </div>
                 <div class="col-md-3">
-                  <input type="text" id="precoPlano" value="">
+                  <input type="text" class="form-control" style="border: 1px solid #d2d6da;" id="precoPlano" value="" name="preco">
                 </div>
             </div>
+            <br>
+            <div class="row">
+              <div class="col-md-3">
+                <span>Titulo:</span>
+              </div>
+              <div class="col-md-3">
+                <input type="titulo" class="form-control" id="titulo" style="border: 1px solid #d2d6da;" value="" name="titulo">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-3">
+                <span>Descricao:</span>
+              </div>
+              <div class="col-md-3">
+                <textarea class="form-control" id="descricao" style="border: 1px solid #d2d6da;" rows="3" name="descricao"></textarea>
+              </div>
+            </div>
           </div>
           <br>
-          <div class="row">
-            <div class="col-md-3">
-              <span>Titulo:</span>
-            </div>
-            <div class="col-md-3">
-              <input type="titulo" id="precoPlano" value="">
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col-md-3">
-              <span>Descricao:</span>
-            </div>
-            <div class="col-md-3">
-              <textarea class="" id="descricao" rows="3"></textarea>
+          <div id="visivelOnlySUB">
+            <div class="row">
+                <div class="col-md-3">
+                  <span>Clientes:</span>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <select name="clientes" id="clientes" multiple="multiple" class="form-control">
+                      {% for cliente in defaults.subscritores%}
+                      <option value="{{cliente.id}}">{{cliente.username}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  
+                </div>
             </div>
           </div>
           <br>
@@ -55,7 +76,7 @@
               <span>Requisitos:</span>
             </div>
             <div class="col-md-3">
-              <textarea class="" id="requisitos" rows="3"></textarea>
+              <textarea class="form-control" id="requisitos" style="border: 1px solid #d2d6da;" rows="3" name="requisitos"></textarea>
             </div>
           </div>
           <br>
@@ -64,7 +85,7 @@
               <span>Nº Blocos:</span>
             </div>
             <div class="col-md-3">
-              <input type="number" id="nrBlocos"  value="0">
+              <input type="number" class="form-control" id="nrBlocos" style="border: 1px solid #d2d6da;"  name="nrBlocos" value="0">
             </div>
           </div>
           <br>
@@ -73,11 +94,14 @@
               <span>Duracao Blocos:</span>
             </div>
             <div class="col-md-3">
-              <input type="number" id="duracaoBloco" value="0">
+              <input type="number" class="form-control" id="duracaoBloco"  style="border: 1px solid #d2d6da;" name="duracaoBloco" value="0">
             </div>
           </div>
           <br>
-          <button id="nextPhase">avancar</button>
+          <div class="row">
+              <div class="col-md-12"> <button id="nextPhase" type="button" class="btn btn-primary btn-lg btn-block">Gerar Programação</button></div>
+          </div>
+          
           <!--<div id="visivelOnlySubs">
             <div class="row">
               <div class="col-md-3">
@@ -147,9 +171,13 @@
               </div>
             </div>
           </div>
-          <button id="submit">guardar</button>
+          <br>
+          <div class="row">
+            <div class="col-md-6"> <button id="submeter" type="submit" class="btn btn-primary btn-lg btn-block">Submeter</button></div>
+        </div>
     </div>
   </div>
+</form>
   <div class="modal" id="myModal" role="dialog" tabindex="-1" style="display: none;">
     <input type="hidden" id="blocoID" value="">
     <input type="hidden" id="diaBlocoID" value="">
@@ -184,6 +212,7 @@
         }
 
       $(document).ready(function(){
+        $('#visivelOnlySUB').hide();
           var allBlocoEx  = [];
           $('#myModal').on('hidden.bs.modal', function (e) {
             var exerciciosSelected = []
@@ -203,18 +232,31 @@
             var parent = document.getElementById("list_exercicios");
             for(let i = 0; i < exerciciosSelected.length;i++)
             {
-              $( "#list_exercicios"+idBloco+ idBlocoDia).append(
-                "<div class='row'><div class='col-md-6'>"+exerciciosSelected[i].label+"</div>"
-                +"<div class='col-md-3 text-right'><input type='text' class='form-control border border-secondary' id='sets"+idEX+idBloco+idBlocoDia+"'/></div>" 
-                +"<div class='col-md-3 text-right'><input type='text' class='form-control border border-secondary' id='reps"+idEX+idBloco+idBlocoDia+"'/></div></div><br>"
+              $( "#list_exercicios"+idBloco+""+ idBlocoDia).append(
+                "<div class='row'><input type='hidden' name='id_exercicio"+idBloco+""+idBlocoDia+"' value='"+exerciciosSelected[i].id+"'><div class='col-md-6'>"+exerciciosSelected[i].label+"</div>"
+                +"<div class='col-md-3 text-right'><input type='text' class='form-control border border-secondary' name='sets"+exerciciosSelected[i].id+""+idBloco+""+idBlocoDia+"'/></div>" 
+                +"<div class='col-md-3 text-right'><input type='text' class='form-control border border-secondary' name='reps"+exerciciosSelected[i].id+""+idBloco+""+idBlocoDia+"'/></div></div><br>"
                 );
             }
             allBlocoEx.push({'bloco': idBloco,'idDiaBloco': idBlocoDia,'exercicio': exerciciosSelected});
           });
           
+          $('#tipoPlano').on('change', function() {
+            if(this.value == 1)
+            {
+              $('#visivelOnlySUB').hide();
+              $('#visivelOnlyOTP').show();
+            }else{
+              $('#visivelOnlySUB').show();
+              $('#visivelOnlyOTP').hide();
+            }
+          });
+
           $('#nextPhase').on('click', function (e) {
+            $( "#blocosGroup" ).empty();
             var  nrBlocoGlob = document.getElementById("nrBlocos").value;
             var duracaoBlocoGlob = document.getElementById("duracaoBloco").value;
+
             for(let i = 1; i <= nrBlocoGlob;i++)
             {
               var html = "<li class='list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg'>"
@@ -238,11 +280,51 @@
                             
                   }
                     html += "</div></div></li>";
-
+                    
                     $( "#blocosGroup" ).append(html);
             }
             
+
+
           });
+
+
+          /*$('#submeter').on('click', function (e) {
+            var arr ={};
+            arr['idTipoPlano'] = $("#tipoPlano option:selected").val();
+            arr['preco'] = $("#precoPlano").val();
+            arr['titulo'] = $("#titulo").val();
+            arr['descricao'] = $("#descricao").val();
+            arr['clientes'] = $("#clientes").val();
+            arr['requisitos'] = $("#requisitos").val();
+            arr['nrBlocos'] = $("#nrBlocos").val();
+            arr['duracaoBloco'] = $("#duracaoBloco").val();
+            arr['exercicios'] = [];
+
+            for(let i = 1; i <= arr['nrBlocos'];i++)
+            {
+              arr['exercicios'][i] = [];
+              for(let j = 1; j <= arr['duracaoBloco'];j++)
+              {
+                arr['exercicios'][i][j] = [];
+                $("[id='id_exercicio"+i+""+j+"']").each(function(){
+                  var idEx = $(this).val();
+                  var sets = $("#sets"+idEx+""+i+""+j).val();
+                  var reps = $("#reps"+idEx+""+i+""+j).val();
+                  arr['exercicios'][i][j].push({'exercicio': idEx,'sets': sets, 'reps': reps});
+                });
+               
+                
+              }
+            }
+
+            $.post("addPlano",
+            {'data':arr,"csrfmiddlewaretoken": '{{csrf_token}}'},
+            function(data, status){
+              alert("Data: " + data + "\nStatus: " + status);
+            });
+
+        });*/
           
 
       });

@@ -2705,7 +2705,7 @@ progress {
   color: #495057;
   background-color: transparent;
   background-clip: padding-box;
-  border: 1px solid #d2d6da;
+  border: 2px solid #71777c;
   appearance: none;
   border-radius: 0.375rem;
   transition: 0.2s ease;

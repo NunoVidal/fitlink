@@ -4,8 +4,9 @@ from .forms import *
 from bootstrap_modal_forms.generic import BSModalCreateView
 from django.views import View
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect,HttpResponse
 # Create your views here.
-
+import json
 def index(request):
     return render(request,'index.html',{})
 
@@ -44,41 +45,7 @@ def marketplace(request):
 def planMaker(request):
     context = {
         'tiposPlano': TipoPlano.objects.all(),
-        'subscritores': Cliente.objects.all().filter(id__in=Subscricao.objects.values_list("refCliente_id").filter(refPT=PersonalTrainer.objects.get(username="larrywheels"))),
-        'blocos':[
-            {
-                'nr': 1,
-                'diaBloco':[{
-                        'nr': 1,
-                        'exercicios': []
-                     },
-                     {
-                        'nr': 2,
-                        'exercicios': []
-                     },
-                      {
-                        'nr': 3,
-                        'exercicios': []
-                     }]
-                
-            },
-             {
-               'nr': 2,
-             'diaBloco':[{
-                    'nr': 1,
-                    'exercicios': []
-                    },
-                    {
-                    'nr': 2,
-                    'exercicios': []
-                    },
-                    {
-                    'nr': 3,
-                    'exercicios': []
-                    }]
-             },
-            
-        ]
+        'subscritores': Cliente.objects.all().filter(id__in=Subscricao.objects.values_list("refCliente_id").filter(refPT=PersonalTrainer.objects.get(username="larrywheels")))
     }
     print(context['subscritores'])
     return render(request,'planMaker.html',{'defaults': context})
@@ -93,3 +60,40 @@ class ExerciseAdder(View):
         context_data = {'Exercicios': exercicios}
         return render(request,self.template_name,context_data)
    
+
+
+class PlanAdder(View):
+    def post(self, request):
+        data = request.POST
+        if(data['titulo'] == '' and data['tipoPlano'] == 1):
+            return HttpResponse(content=b'Preencha o Titulo pf', content_type=None, status=406, reason=None, charset=None, headers=None)
+
+        if(data['descricao'] == '' and data['tipoPlano'] == 1):
+            return HttpResponse(content=b'Preencha a descricao pf', content_type=None, status=406, reason=None, charset=None, headers=None)
+
+        if((data['preco'] == '' or float(data['preco']) < 0) and data['tipoPlano'] == 1):
+            return HttpResponse(content=b'Preco invalido', content_type=None, status=406, reason=None, charset=None, headers=None)
+
+        if('clientes' in data):
+            if(len(data['clientes']) <=0 and data['tipoPlano'] == 2):
+                return HttpResponse(content=b'Selecione clientes', content_type=None, status=406, reason=None, charset=None, headers=None)
+
+        if(int(data['duracaoBloco']) <= 0):
+             return HttpResponse(content=b'Duracao do bloco invalida', content_type=None, status=406, reason=None, charset=None, headers=None)
+
+        if(int(data['nrBlocos']) <= 0):
+             return HttpResponse(content=b'Num de Blocos invalido', content_type=None, status=406, reason=None, charset=None, headers=None)
+
+        PlanoTreino.objects.create(
+            titulo=data['titulo'],
+            imagem='default',
+            descricao=data['descricao'],
+            requisitos=data['requisitos'],
+            tipoPlano=TipoPlano.objects.filter(id=data['tipoPlano']).first(),
+            preco=data['preco'],
+            periodoBloco=data['duracaoBloco'],
+            nrBlocos=data['nrBlocos'],
+            refPersonalTrainer=PersonalTrainer.objects.filter(username='larrywheels').first()
+        )
+
+        return HttpResponse(content=b'Sucesso', content_type=None, status=200, reason=None, charset=None, headers=None)

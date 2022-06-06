@@ -5,3 +5,6 @@ class ExercicioModelForm(BSModalModelForm):
     class Meta:
         model = Exercicio
         fields = ['titulo', 'descricao', 'img']
+
+
+
