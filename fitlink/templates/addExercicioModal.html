@@ -4,19 +4,16 @@
 
         <div class="modal-header">
           <h5 class="modal-title">Biblioteca de exercicios</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
           
           <ul class="list-group">
             {% for ex in Exercicios %}
             <li class="list-group-item rounded-0">
-                <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" id="check_{{ex.id}}" type="checkbox" checked="{{ex.selected}}">
-                    <label class="cursor-pointer font-italic d-block custom-control-label" id="label_{{ex.id}}" for="customCheck1">{{ex.titulo}}</label>
-                    <input type="hidden" class="hiddenExercicioID" value="{{ex.id}}">
+                <div class="row">
+                    <div class="col-md-1"><input class="custom-control-input" id="check_{{ex.id}}" type="checkbox" checked="{{ex.selected}}"></div>
+                    <div class="col-md-3"><label class="cursor-pointer font-italic d-block custom-control-label" id="label_{{ex.id}}" for="customCheck1">{{ex.titulo}}</label></div>
+                    <div class="col-md-3"><input type="hidden" class="hiddenExercicioID" value="{{ex.id}}"></div>
                 </div>
             </li>
            
@@ -26,8 +23,7 @@
        
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">guardar</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
         </div>
 
 {% endblock content %}
