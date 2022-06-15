@@ -110,5 +110,5 @@ class PlanAdder(View):
 
 
 
-def detalhesPlano(request):
-    return render(request,'detalhesPlano.html',{})
+def detalhesPlano(request,idPlano):
+    return render(request,'detalhesPlano.html',{'plano': PlanoTreino.objects.filter(id=idPlano).first()})
