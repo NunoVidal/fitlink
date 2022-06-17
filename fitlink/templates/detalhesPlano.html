@@ -1,13 +1,24 @@
 
 {% extends "index.html" %}
 {% block content %}
-    <div class="container-fluid px-2 px-md-4">
+   <div class="container-fluid px-2 px-md-4">
      <div class="page-header min-height-100 border-radius-xl mt-4" style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
         <span class="mask  bg-gradient-primary  opacity-6"></span>
       </div>
       <div class="card card-body mx-3 mx-md-4 mt-n6">
-        <p>{{plano.titulo}}</P>
+         <p style="color:black;font-size:30px;font-family: Geneva, Verdana, sans-serif;">{{plano.titulo}}
+			<div style="position:relative;top:0px">Treinador: {{plano.refPersonalTrainer}}</div>
+         </p>
+         <p>
+			<div style="float:left">{{plano.imagem}}</div>
+			<div style="border:1px solid #abe7eb;border-radius: 10px;color:black;padding:10px;bottom:15px">{{plano.descricao}}</div>
+         </p>
+         <p></p>
+         <p>
+			 <div style="position:absolute;bottom:15px;right:15px">
+				 <button style="font-weight: bold;border:none;padding:15px;border-radius: 10px; background-color: #bbf9fc;box-shadow: 0 0 2px 2px #e0fdff;font-family:Arial, Helvetica, sans-serif">Subscreve por {{plano.preco}}€/mês</button>
+			 </div>
+         </p>
       </div>
     </div>
-
   {% endblock %}
