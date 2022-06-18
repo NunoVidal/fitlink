@@ -31,9 +31,10 @@ class PlanoTreino(models.Model):
         return self.titulo
 
 
-class Compra (models.Model):
+class Compra(models.Model):
     dataCompra = models.DateField(auto_now_add=True)
     refPlano = models.ForeignKey(PlanoTreino, on_delete=models.CASCADE)
+    refCliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
 
 class Pagamento(models.Model):
     nome = models.CharField( max_length=255)
@@ -46,11 +47,21 @@ class Pagamento(models.Model):
     cvv = models.IntegerField()
     expireDate = models.DateField()
 
+
+
 class Exercicio(models.Model):
     titulo = models.CharField(max_length = 255)
     img = models.CharField(max_length=255)
     descricao = models.TextField()
 
+
+class ExercicioPlano(models.Model):
+    refPlano = models.ForeignKey(PlanoTreino, on_delete=models.CASCADE)
+    refExercicio = models.ForeignKey(Exercicio, on_delete=models.CASCADE)
+    nrBloco = models.IntegerField()
+    periodoBloco = models.IntegerField()
+    reps = models.IntegerField()
+    sets = models.IntegerField()
 
 class Subscricao(models.Model):
     refPT = models.ForeignKey(PersonalTrainer, on_delete=models.CASCADE)
