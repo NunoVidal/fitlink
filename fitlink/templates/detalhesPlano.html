@@ -11,12 +11,18 @@
          </p>
          <p>
 			<div style="float:left">{{plano.imagem}}</div>
-			<div style="border:1px solid #abe7eb;border-radius: 10px;color:black;padding:10px;bottom:15px">{{plano.descricao}}</div>
+			<div style="border:1pt solid #808080;border-radius: 10px;padding:10px;bottom:15px">
+				<b style="color:black;font-size:20px">Descrição</b>
+				<p>{{plano.descricao}}</p>
+                
+				<b style="color:black;font-size:20px">Requisitos</b>
+				<p>{{plano.requisitos}}</p>
+            </div>         
          </p>
          <p></p>
          <p>
 			 <div style="position:absolute;bottom:15px;right:15px">
-				 <a href="{% url 'comprasSubscricao' idPlano=plano.id %}" style="font-weight: bold;border:none;padding:15px;border-radius: 10px; background-color: #bbf9fc;box-shadow: 0 0 2px 2px #e0fdff;font-family:Arial, Helvetica, sans-serif">Subscreve por {{plano.preco}}€/mês</a>
+				 <a href="{% url 'comprasSubscricao' idPlano=plano.id %}"><button style="background-color:#adadad;"type="button" class="btn btn-primary active">Subscreve por {{plano.preco}}€/mês</button></a>
              
 			 </div>
          </p>
