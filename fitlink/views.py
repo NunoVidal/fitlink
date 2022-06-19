@@ -144,6 +144,9 @@ class PlanAdder(View):
 def detalhesPlano(request,idPlano):
     return render(request,'detalhesPlano.html',{'plano': PlanoTreino.objects.filter(id=idPlano).first()})
 
+def comprasSubscricao(request,idPlano):
+    return render(request,'comprasSubscricao.html',{'plano': PlanoTreino.objects.filter(id=idPlano).first()})
+
 
 
 def exerciciosPlano(request,idPlano):
