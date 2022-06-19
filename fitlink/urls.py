@@ -17,7 +17,7 @@ urlpatterns = [
     path('planMaker',views.planMaker,name="planMaker"),
     path('addExercicio', views.ExerciseAdder.as_view(), name='addExercicio'),
     path('addPlano', views.PlanAdder.as_view(), name='addPlano'),
-    path('detalhesPlano/<int:idPlano>/', views.detalhesPlano, name='detalhesPlano'),
-    path('exerciciosPlano/<int:idPlano>/', views.exerciciosPlano, name='exerciciosPlano'),
+    path('detalhesPlano/<int:idPlano>', views.detalhesPlano, name='detalhesPlano'),
+    path('exerciciosPlano/<int:idPlano>', views.exerciciosPlano, name='exerciciosPlano'),
     path('comprasSubscricao/<int:idPlano>', views.comprasSubscricao, name='comprasSubscricao'),
 ] 
