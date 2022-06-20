@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 from bootstrap_modal_forms.generic import BSModalCreateView
 from django.views import View
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect,HttpResponse
+from django.contrib.auth import login
 from django.contrib import messages
 
 
@@ -163,3 +164,15 @@ def exerciciosPlano(request,idPlano):
         contextExercicio[ex.nrBloco][ex.periodoBloco].append({'exercicio': Exercicio.objects.filter(id=ex.refExercicio.id).first(),'reps': ex.reps, 'sets': ex.sets})
         
     return render(request,'exerciciosPlano.html',{'plano': PlanoTreino.objects.filter(id=idPlano).first(),'exercicios': contextExercicio })
+
+def register_request(request):
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Registration successful.")
+            return redirect("profile")
+        messages.error(request ,"Unsuccessfull registration. Invalid information")
+    form = NewUserForm()
+    return render (request=request, template_name="register.html",context={"register_form":form})
