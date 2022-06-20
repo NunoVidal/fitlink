@@ -1,0 +1,63 @@
+
+{% extends "index.html" %}
+{% block content %}
+   <div class="container-fluid px-2 px-md-4">
+     <div class="page-header min-height-100 border-radius-xl mt-4" style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+        <span class="mask  bg-gradient-primary  opacity-6"></span>
+      </div>
+      <div class="card card-body mx-3 mx-md-4 mt-n6">
+        <div class="container-fluid px-2 px-md-4">       
+            <div class="col-md-7 mt-4">
+                <div class="card">
+                  <div class="card-header pb-0 px-3">
+                    <h6 class="mb-0">Programação de - {{plano.titulo}}</h6>
+                  </div>
+                  <div class="card-body pt-4 p-3">
+                    <ul class="list-group" id="blocosGroup">
+                      {% for bloco,arr in exercicios.items %}
+                      <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                        <div class="d-flex flex-column">
+                          <h6 class="mb-3 text-sm">Bloco #{{bloco}}</h6>
+                          <div class="accordion accordion-flush" id="accordion_{{bloco}}">
+                            {% for diaBloco,ex in arr.items %}
+                            <div class="accordion-item"  style=" width: 600px;">
+                                <h2 class="accordion-header" id="flush-heading{{bloco}}{{diaBloco}}">
+                                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{bloco}}{{diaBloco}}" aria-expanded="false" aria-controls="flush-collapse{{bloco}}{{diaBloco}}">
+                                        Dia {{diaBloco}}</button>
+                                    
+                                </h2>
+                                <div id="flush-collapse{{bloco}}{{diaBloco}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{bloco}}{{diaBloco}}" data-bs-parent="#accordion_{{bloco}}">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                      <div class="col-md-6"> </div>
+                                      <div class="col-md-3"><p class="text-right">Séries</p></div>
+                                      <div class="col-md-3"><p>Repetições</p></div>
+                                    </div>
+                                    <hr>
+                                    <div id="list_exercicios{{bloco}}{{diaBloco}}">
+                                        {% for it in ex %}
+                                            <div class="row">
+                                                <div class="col-md-6">{{it.exercicio.titulo}}</div>
+                                                <div class="col-md-3"><p class="text-right">{{it.sets}}</p></div>
+                                                <div class="col-md-3"><p>{{it.reps}}</p></div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            
+                           {% endfor %}
+                        </div>
+                        </div>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  {% endblock %}

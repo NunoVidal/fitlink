@@ -1,0 +1,174 @@
+{% extends "index.html" %}
+{% block content %}
+   <div class="container-fluid px-2 px-md-4">
+
+        <div class="card">
+          <div class="card-header pb-0 px-3">
+            <h4 class="mb-0">Compra do Plano</h4>
+            <br>
+                <div style="border:1px solid #abe7eb;border-radius: 10px;color:black;padding:10px;bottom:15px"><span>Plano: </span>{{plano.descricao}}
+                  <br> Autor: </span>{{plano.refPersonalTrainer}}
+                  <br><span>Preço: </span>{{plano.preco}} <span>€</span>
+              </div>
+          </div>
+           <br>
+            
+          
+          <div class="card-body pt-4 p-3">
+                <!-- Credit card form tabs -->
+                <ul role="tablist" class="nav nav-tabs mb-3" id="myTab">
+                    <li class="nav-item"> <a href="#credito" class="nav-link active" data-toggle="tab" > <i class="fas fa-credit-card mr-2"></i> Cartão de Crédito </a> </li>
+                    <li class="nav-item"> <a  href="#payP" class="nav-link " data-toggle="tab"> <i class="fab fa-paypal mr-2"></i> Paypal </a> </li>
+                    <li class="nav-item"> <a href="#MBway" class="nav-link " data-toggle="tab" > <i class="fas fa-mobile-alt mr-2"></i> MBway </a> </li>
+                </ul>
+                <br>
+            <!--<div class="row">
+              <div class="col-md-3">
+                <h5> Opção do Pagamento</h5>
+                <br>
+                 <button type="button" class="btn-info" id="cartao" style='font-size:24px; background-color: gray;'>Cartão <i class='far fa-credit-card' style="color:black ;"></i></button>
+                 <button type="button" class="btn-info" id="mbway"  style="font-size:24px;background-color: gray; color: #000;">MBway <i class="fa fa-mobile-phone"  style="color:black;"></i></button>
+                 <button type="button" class="btn-info" id="paypal" style='font-size:24px; background-color: gray; color: #000;'>PayPal <i class='fab fa-cc-paypal'   style="color:black;"></i></button>
+                 
+              </div>
+           </div>-->
+           <div class="tab-content">
+              <div id="credito" class="tab-pane active" role="tabpanel">
+                <div class="row">
+                  <div class="col-md-3">
+                    <span>Número do Cartão:</span>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="number" maxlength="16"  class="form-control" id="cardNumber" style="border: 1px solid #d2d6da;" rows="3" name="cardNumber">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-3">
+                    <span>Nome do Títular:</span>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="text" class="form-control" id="nome" style="border: 1px solid #d2d6da;" rows="3" name="nome">
+                  </div>
+                </div>
+                <br>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <span>Mes:</span>
+                    </div>
+                    <div class="col-md-3">
+                          <input list="month" class="form-control" id="mes" style="border: 1px solid #d2d6da;" rows="3" name="mes">
+                          <datalist id="month">
+                            <option value="1">
+                            <option value="2">
+                            <option value="3">
+                            <option value="4">
+                            <option value="5">
+                            <option value="6">
+                            <option value="7">
+                            <option value="8">
+                            <option value="9">
+                            <option value="10">
+                            <option value="11">
+                            <option value="12">
+                          </datalist>
+                        </div>
+                    </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <span>Ano:</span>
+                    </div>
+                      <div class="col-md-3">
+                        <input list="Year" class="form-control" id="Ano" style="border: 1px solid #d2d6da;" rows="3" name="Ano">
+                        <datalist id="Year">
+                          <option value="2023">
+                          <option value="2024">
+                          <option value="2025">
+                          <option value="2026">
+                          <option value="2027">
+                          <option value="2028">
+                          <option value="2029">
+                          <option value="2030">
+                          <option value="2031">
+                          <option value="2032">
+                          <option value="2033">
+                          <option value="2034">
+                          <option value="2035">
+                        </datalist>
+                      </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <span>CVV:</span>
+                    </div>
+                    <div class="col-md-3">
+                      <input type="text" maxlength="3" class="form-control" id="CVV" style="border: 1px solid #d2d6da;" rows="3" name="CVV">
+                    </div>
+                  </div>
+                </div>
+
+
+
+              <div id="MBway" class="tab-pane" role="tabpanel">
+                <div class="row">
+                  <div class="col-md-3">
+                    <span>Número do telemóvel:</span>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="tel" class="form-control" id="phone" style="border: 1px solid #d2d6da;" rows="3" name="phone">
+                  </div>
+                </div>
+              </div>
+
+              <div id = "payP" class="tab-pane" role="tabpanel">
+                <div class="row">
+                  <div class="col-md-3">
+                    <span>Email:</span>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="text" class="form-control" id="email" style="border: 1px solid #d2d6da;" rows="3" name="email">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-3">
+                    <span>Palavra Passe:</span>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="password" class="form-control" id="password" style="border: 1px solid #d2d6da;" rows="3" name="PassWord">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="btn btn-success btn-lg btn-block" id="pagar">Pagar</div>
+                
+     </div>
+  </div>
+  <!--
+  <style>
+       .credit{
+        display: block;
+       }
+       .mb{
+        display: none;
+       }
+       .pay{
+        display: none;
+       }
+
+  </style> -->
+
+<script src="{{HTTP_HOST}}/static/js/core/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+   $('#myTab a').click(function (e) {
+     e.preventDefault()
+     $(this).tab('show')
+   });
+
+</script>
+
+{% endblock %}
