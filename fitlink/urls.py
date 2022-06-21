@@ -21,4 +21,5 @@ urlpatterns = [
     path('detalhesPlano/<int:idPlano>', views.detalhesPlano, name='detalhesPlano'),
     path('exerciciosPlano/<int:idPlano>', views.exerciciosPlano, name='exerciciosPlano'),
     path('comprasSubscricao/<int:idPlano>', views.comprasSubscricao, name='comprasSubscricao'),
+    path('register/', views.register_request, name='register'),
 ] 
