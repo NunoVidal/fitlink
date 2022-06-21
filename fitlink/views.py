@@ -121,8 +121,7 @@ class PlanAdder(View):
             nrBlocos=data['nrBlocos'],
             refPersonalTrainer=PersonalTrainer.objects.filter(username='larrywheels').first()
         )
-
-       
+        
         for reg in exercicios:
             ExercicioPlano.objects.create(
                 refPlano=PlanoTreino.objects.latest('id'),

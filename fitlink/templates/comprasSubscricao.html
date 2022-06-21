@@ -1,5 +1,8 @@
 {% extends "index.html" %}
 {% block content %}
+
+<form action ="buyPlano" method="post">
+  {% csrf_token %}
    <div class="container-fluid px-2 px-md-4">
 
         <div class="card">
@@ -142,10 +145,13 @@
                 </div>
               </div>
             </div>
-            <div class="btn btn-success btn-lg btn-block" id="pagar">Pagar</div>
-                
-     </div>
+            <div class="row">
+            <div class="col-md-6"> <button id="submeter" type="submit" class="btn btn-primary btn-lg btn-block">Pagar</button></div>
+            </div>
+      </div>
+    </div>
   </div>
+</form>
   <!--
   <style>
        .credit{
