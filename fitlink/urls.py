@@ -1,6 +1,6 @@
 
 
-from django.urls import path
+from django.urls import path,  include
 from . import views
 from django.contrib.auth import views as auth_view
 
@@ -24,4 +24,5 @@ urlpatterns = [
     path('comprasSubscricao/<int:idPlano>', views.comprasSubscricao, name='comprasSubscricao'),
     path('register/', views.register_request, name='register'),
     path('login/', auth_view.LoginView.as_view(template_name='login.html'),name="login"),
+    path('', include("django.contrib.auth.urls")),
 ] 
