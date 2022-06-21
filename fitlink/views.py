@@ -10,8 +10,12 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect,HttpResponse
 from django.contrib.auth import login
 from django.contrib import messages
+<<<<<<< HEAD
 from datetime import date, datetime
 from datetime import datetime
+=======
+from django.contrib.auth.models import Group
+>>>>>>> f4e94db7298de12523e19630be7f90643a657bc4
 
 
 # Create your views here.
@@ -239,6 +243,12 @@ def register_request(request):
         form = NewUserForm(request.POST)
         if form.is_valid():
             user = form.save()
+            if form.cleaned_data['usermode'] == True:
+                group = Group.objects.get(name= "Personal Trainer")
+                group.user_set.add(user)
+            else:
+                group = Group.objects.get(name= "Cliente")
+                group.user_set.add(user)
             login(request, user)
             messages.success(request, "Acoount registration successful.")
             return redirect("profile")
