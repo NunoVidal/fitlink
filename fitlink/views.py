@@ -171,8 +171,9 @@ def register_request(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, "Registration successful.")
+            messages.success(request, "Acoount registration successful.")
             return redirect("profile")
         messages.error(request ,"Unsuccessfull registration. Invalid information")
-    form = NewUserForm()
+    else:
+        form = NewUserForm()
     return render (request=request, template_name="register.html",context={"register_form":form})
