@@ -10,12 +10,8 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect,HttpResponse
 from django.contrib.auth import login
 from django.contrib import messages
-<<<<<<< HEAD
-from datetime import date, datetime
-from datetime import datetime
-=======
+from datetime import date
 from django.contrib.auth.models import Group
->>>>>>> f4e94db7298de12523e19630be7f90643a657bc4
 
 
 # Create your views here.
@@ -162,42 +158,46 @@ class BuyPlan(View):
 
         if(data['cardNumber'] == '' and data["pagamento"] == "credito"):
             messages.add_message(request, messages.ERROR, 'Número do Cartão Invalido')
-            return HttpResponseRedirect("comprasSubscricao")
+            return HttpResponseRedirect("/comprasSubscricao/"+data['idPlano'])
 
         if(data['nome'] == '' and data["pagamento"] == "credito"):
             messages.add_message(request, messages.ERROR, 'Nome do Titular Invalido')
-            return HttpResponseRedirect("comprasSubscricao")
+            return HttpResponseRedirect("/comprasSubscricao/"+data['idPlano'])
         
         if(data['apelido'] == '' and data["pagamento"] == "credito"):
             messages.add_message(request, messages.ERROR, 'Apelido Invalido')
-            return HttpResponseRedirect("comprasSubscricao")
-
+            return HttpResponseRedirect("/comprasSubscricao/"+data['idPlano'])
 
         if((data['mes'] == '' or int(data['mes']) < 0 or int(data['mes']) > 12 ) and data["pagamento"] == "credito"):
             messages.add_message(request, messages.ERROR, 'Mes invalido')
-            return HttpResponseRedirect("comprasSubscricao")
+            return HttpResponseRedirect("/comprasSubscricao/"+data['idPlano'])
 
         if((data['Ano'] == '' or int(data['Ano']) < 0) and data["pagamento"] == "credito"):
             messages.add_message(request, messages.ERROR, 'Ano invalido')
-            return HttpResponseRedirect("comprasSubscricao")
+            return HttpResponseRedirect("/comprasSubscricao/"+data['idPlano'])
         
-        if((data['CVV'] == '' or int(data['CVV']) < 0 ) and data["pagamento"] == "credito"):
+        if((data['CVV'] == '' or int(data['CVV']) < 0) and data["pagamento"] == "credito"):
             messages.add_message(request, messages.ERROR, 'CVV invalido')
-            return HttpResponseRedirect("comprasSubscricao")
+            return HttpResponseRedirect("/comprasSubscricao/"+data['idPlano'])
         
         if((data['email'] == '') and data["pagamento"] == "payP"):
             messages.add_message(request, messages.ERROR, 'Email invalido')
-            return HttpResponseRedirect("comprasSubscricao")
-        
-        if((data['PassWord'] == '') and data["pagamento"] == "payP"):
-            messages.add_message(request, messages.ERROR, 'Palavra Passe invalida')
-            return HttpResponseRedirect("comprasSubscricao")
+            return HttpResponseRedirect("/comprasSubscricao/"+data['idPlano'])
         
         if((data['phone'] == '' or int(data['phone']) < 0) and data["pagamento"] == "MBway"):
             messages.add_message(request, messages.ERROR, 'Número do Telemóvel invalido')
-            return HttpResponseRedirect("comprasSubscricao")
+            return HttpResponseRedirect("/comprasSubscricao/"+data['idPlano'])
         
-        date = datetime.date( data['Ano'],data['mes'],1)
+
+        print(data)
+        if data["pagamento"] == 'credito':
+            dataC = date( int(data['Ano']),int(data['mes']),1)
+            cvvC = data['CVV']
+            cartao = data['cardNumber']
+        else:
+            dataC =  date(1970,1,1)
+            cvvC = 0
+            cartao = 0
 
         idpagamento = Pagamento.objects.create(
             nome=data['nome'],
@@ -206,18 +206,19 @@ class BuyPlan(View):
             emailPaypal=data['email'],
             entidade = 0, 
             referenciaMB=0, 
-            nrCartao=data['cardNumber'],
-            cvv=data['CVV'],
-            expireDate=date
+            nrCartao=cartao,
+            cvv=cvvC,
+            expireDate=dataC
         )
+
         idcompra = Compra.objects.create(
-            dataCompra = datetime.today().strftime('%Y-%m-%d'),
-            refPlano = 'default',
-            refCliente = 'default',
+            dataCompra = date.today(),
+            refPlano = PlanoTreino.objects.filter(id=data['idPlano']).first(),
+            refCliente = User.objects.filter(id=request.user.id).first(), #login user
         )
        
-        messages.add_message(request, messages.INFO, 'Pagamento efeituado')
-        return HttpResponseRedirect("marketplace")
+        messages.add_message(request, messages.INFO, 'Pagamento efetuado')
+        return HttpResponseRedirect("/marketplace")
 
         
 

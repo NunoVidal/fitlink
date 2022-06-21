@@ -13,6 +13,7 @@
                   <br> Autor: </span>{{plano.refPersonalTrainer}}
                   <br><span>Preço: </span>{{plano.preco}} <span>€</span>
                   <input type="hidden" id="montante" name="montante" value="{{plano.preco}}">
+                  <input type="hidden" id="idPlano" name="idPlano" value="{{plano.id}}">
               </div>
           </div>
            <br>
@@ -22,9 +23,9 @@
                 <!-- Credit card form tabs -->
                 <input type="hidden" id="pagamento" name="pagamento">
                 <ul role="tablist" class="nav nav-tabs mb-3" id="myTab">
-                    <li class="nav-item" onclick="valor('credit');"><a href="#credito" class="nav-link active" data-toggle="tab" > <i class="fas fa-credit-card mr-2"></i> Cartão de Crédito </a> </li>
-                    <li class="nav-item" onclick="valor('pp');"><a  href="#payP" class="nav-link " data-toggle="tab"> <i class="fab fa-paypal mr-2"></i> Paypal </a> </li>
-                    <li class="nav-item" onclick="valor('mb');"><a href="#MBway" class="nav-link " data-toggle="tab" > <i class="fas fa-mobile-alt mr-2"></i> MBway </a> </li>
+                    <li class="nav-item" ><a href="#creditoArea" class="nav-link active" data-toggle="tab" id="credito" > <i class="fas fa-credit-card mr-2"></i> Cartão de Crédito </a> </li>
+                    <li class="nav-item" ><a  href="#payPArea" class="nav-link " data-toggle="tab" id="payP"> <i class="fab fa-paypal mr-2"></i> Paypal </a> </li>
+                    <li class="nav-item"><a href="#MBwayArea" class="nav-link " data-toggle="tab" id="MBway"> <i class="fas fa-mobile-alt mr-2"></i> MBway </a> </li>
                 </ul>
                 <br>
             <!--<div class="row">
@@ -38,7 +39,7 @@
               </div>
            </div>-->
            <div class="tab-content">
-              <div id="credito" class="tab-pane active" role="tabpanel" name="credito">
+              <div id="creditoArea" class="tab-pane active" role="tabpanel" name="credito">
                 <div class="row">
                   <div class="col-md-3">
                     <span>Número do Cartão:</span>
@@ -125,7 +126,7 @@
 
 
 
-              <div id="MBway" class="tab-pane" role="tabpanel">
+              <div id="MBwayArea" class="tab-pane" role="tabpanel">
                 <div class="row">
                   <div class="col-md-3">
                     <span>Número do telemóvel:</span>
@@ -136,28 +137,21 @@
                 </div>
               </div>
 
-              <div id = "payP" class="tab-pane" role="tabpanel">
+              <div id = "payPArea" class="tab-pane" role="tabpanel">
                 <div class="row">
                   <div class="col-md-3">
-                    <span>Email:</span>
+                    <span>Email Conta Paypal:</span>
                   </div>
                   <div class="col-md-3">
                     <input type="text" class="form-control" id="email" style="border: 1px solid #d2d6da;" rows="3" name="email">
                   </div>
                 </div>
                 <br>
-                <div class="row">
-                  <div class="col-md-3">
-                    <span>Palavra Passe:</span>
-                  </div>
-                  <div class="col-md-3">
-                    <input type="password" class="form-control" id="password" style="border: 1px solid #d2d6da;" rows="3" name="PassWord">
-                  </div>
-                </div>
+               
               </div>
             </div>
             <div class="row">
-            <div class="col-md-6"> <button id="submeter" name="submeter" type="submit" class="btn btn-primary btn-lg btn-block">Pagar</button></div>
+              <div class="col-md-6"> <button id="submeter" name="submeter" type="submit" class="btn btn-primary btn-lg btn-block">Pagar</button></div>
             </div>
       </div>
     </div>
@@ -180,16 +174,21 @@
 <script src="{{HTTP_HOST}}/static/js/core/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+  
 
-   $('#myTab a').click(function (e) {
+
+    $('#myTab a').click(function (e) {
      e.preventDefault()
      $(this).tab('show')
+     valor(e.currentTarget.id);
    });
 
     function valor(e) {
       //var valor = 1;
       document.getElementById("pagamento").value=e;
     }
+
+   
     /*
    /$("#botao").click(function(){
     var minhaVariavel="1";

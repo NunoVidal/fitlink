@@ -34,7 +34,7 @@ class PlanoTreino(models.Model):
 class Compra(models.Model):
     dataCompra = models.DateField(auto_now_add=True)
     refPlano = models.ForeignKey(PlanoTreino, on_delete=models.CASCADE)
-    refCliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
+    refCliente = models.ForeignKey(User,on_delete=models.CASCADE)
 
 class Pagamento(models.Model):
     nome = models.CharField( max_length=255)
@@ -62,6 +62,8 @@ class ExercicioPlano(models.Model):
     periodoBloco = models.IntegerField()
     reps = models.IntegerField()
     sets = models.IntegerField()
+
+
 
 class Subscricao(models.Model):
     refPT = models.ForeignKey(PersonalTrainer, on_delete=models.CASCADE)
