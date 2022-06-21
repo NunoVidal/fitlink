@@ -12,6 +12,7 @@
                 <div style="border:1px solid #abe7eb;border-radius: 10px;color:black;padding:10px;bottom:15px"><span>Plano: </span>{{plano.descricao}}
                   <br> Autor: </span>{{plano.refPersonalTrainer}}
                   <br><span>Preço: </span>{{plano.preco}} <span>€</span>
+                  <input type="hidden" id="montante" name="montante" value="{{plano.preco}}">
               </div>
           </div>
            <br>
@@ -19,10 +20,11 @@
           
           <div class="card-body pt-4 p-3">
                 <!-- Credit card form tabs -->
+                <input type="hidden" id="pagamento" name="pagamento">
                 <ul role="tablist" class="nav nav-tabs mb-3" id="myTab">
-                    <li class="nav-item"> <a href="#credito" class="nav-link active" data-toggle="tab" > <i class="fas fa-credit-card mr-2"></i> Cartão de Crédito </a> </li>
-                    <li class="nav-item"> <a  href="#payP" class="nav-link " data-toggle="tab"> <i class="fab fa-paypal mr-2"></i> Paypal </a> </li>
-                    <li class="nav-item"> <a href="#MBway" class="nav-link " data-toggle="tab" > <i class="fas fa-mobile-alt mr-2"></i> MBway </a> </li>
+                    <li class="nav-item" onclick="valor('credit');"><a href="#credito" class="nav-link active" data-toggle="tab" > <i class="fas fa-credit-card mr-2"></i> Cartão de Crédito </a> </li>
+                    <li class="nav-item" onclick="valor('pp');"><a  href="#payP" class="nav-link " data-toggle="tab"> <i class="fab fa-paypal mr-2"></i> Paypal </a> </li>
+                    <li class="nav-item" onclick="valor('mb');"><a href="#MBway" class="nav-link " data-toggle="tab" > <i class="fas fa-mobile-alt mr-2"></i> MBway </a> </li>
                 </ul>
                 <br>
             <!--<div class="row">
@@ -36,7 +38,7 @@
               </div>
            </div>-->
            <div class="tab-content">
-              <div id="credito" class="tab-pane active" role="tabpanel">
+              <div id="credito" class="tab-pane active" role="tabpanel" name="credito">
                 <div class="row">
                   <div class="col-md-3">
                     <span>Número do Cartão:</span>
@@ -52,6 +54,15 @@
                   </div>
                   <div class="col-md-3">
                     <input type="text" class="form-control" id="nome" style="border: 1px solid #d2d6da;" rows="3" name="nome">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-3">
+                    <span>Apelido:</span>
+                  </div>
+                  <div class="col-md-3">
+                    <input type="text" class="form-control" id="apelido" style="border: 1px solid #d2d6da;" rows="3" name="apelido">
                   </div>
                 </div>
                 <br>
@@ -146,7 +157,7 @@
               </div>
             </div>
             <div class="row">
-            <div class="col-md-6"> <button id="submeter" type="submit" class="btn btn-primary btn-lg btn-block">Pagar</button></div>
+            <div class="col-md-6"> <button id="submeter" name="submeter" type="submit" class="btn btn-primary btn-lg btn-block">Pagar</button></div>
             </div>
       </div>
     </div>
@@ -174,6 +185,16 @@
      e.preventDefault()
      $(this).tab('show')
    });
+
+    function valor(e) {
+      //var valor = 1;
+      document.getElementById("pagamento").value=e;
+    }
+    /*
+   /$("#botao").click(function(){
+    var minhaVariavel="1";
+    $("input[name='test']").val(minhaVariavel);
+    });*/
 
 </script>
 
