@@ -12,12 +12,13 @@ from django.contrib.auth import login
 from django.contrib import messages
 from datetime import date
 from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 import json
 def index(request):
-    return render(request,'index.html',{})
+        return render(request,'index.html',{})
 
 def signin(request):
     return render(request,'sign-in.html',{})
@@ -25,32 +26,41 @@ def signin(request):
 def signup(request):
     return render(request,'sign-up.html',{})
 
+@login_required(login_url='login/')
 def profile(request):
     context = PlanoTreino.objects.all().filter(refPersonalTrainer=PersonalTrainer.objects.get(username="larrywheels"))
     return render(request,'profile.html',{"planos": context})
 
+@login_required(login_url='login/')
 def notifications(request):
     return render(request,'notifications.html',{})
 
+@login_required(login_url='login/')
 def vr(request):
     return render(request,'virtual-reality.html',{})
 
+@login_required(login_url='login/')
 def billing(request):
     return render(request,'billing.html',{})
 
+@login_required(login_url='login/')
 def tables(request):
     return render(request,'tables.html',{})
 
+@login_required(login_url='login/')
 def dashboard(request):
     return render(request,'dashboard.html',{})
 
+@login_required(login_url='login/')
 def rtl(request):
     return render(request,'rtl.html',{})
 
+@login_required(login_url='login/')
 def marketplace(request):
     context = PlanoTreino.objects.all()
     return render(request,'marketplace.html',{"planos": context})
 
+@login_required(login_url='login/')
 def planMaker(request):
     context = {
         'tiposPlano': TipoPlano.objects.all(),
@@ -146,9 +156,11 @@ class PlanAdder(View):
 
 
 
+@login_required(login_url='login/')
 def detalhesPlano(request,idPlano):
     return render(request,'detalhesPlano.html',{'plano': PlanoTreino.objects.filter(id=idPlano).first()})
 
+@login_required(login_url='login/')
 def comprasSubscricao(request,idPlano):
     return render(request,'comprasSubscricao.html',{'plano': PlanoTreino.objects.filter(id=idPlano).first()})
 
@@ -224,6 +236,7 @@ class BuyPlan(View):
 
 
 
+@login_required(login_url='login/')
 def exerciciosPlano(request,idPlano):
 
     exercicios = ExercicioPlano.objects.filter(refPlano=idPlano).all()
@@ -239,6 +252,7 @@ def exerciciosPlano(request,idPlano):
         
     return render(request,'exerciciosPlano.html',{'plano': PlanoTreino.objects.filter(id=idPlano).first(),'exercicios': contextExercicio })
 
+@login_required(login_url='login/')
 def register_request(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
