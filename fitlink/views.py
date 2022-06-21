@@ -28,7 +28,11 @@ def signup(request):
 
 @login_required(login_url='login/')
 def profile(request):
-    context = PlanoTreino.objects.all().filter(refPersonalTrainer=PersonalTrainer.objects.get(username="larrywheels"))
+    if request.user.groups.filter(name="Personal Trainer"):
+        context = PlanoTreino.objects.all().filter(refPersonalTrainer=User.objects.get(id=request.user.id))
+    else:
+        context = PlanoTreino.objects.all().filter(id__in=Compra.objects.filter(refCliente=request.user.id).values("refPlano"))
+    print(context)
     return render(request,'profile.html',{"planos": context})
 
 @login_required(login_url='login/')
@@ -64,7 +68,7 @@ def marketplace(request):
 def planMaker(request):
     context = {
         'tiposPlano': TipoPlano.objects.all(),
-        'subscritores': Cliente.objects.all().filter(id__in=Subscricao.objects.values_list("refCliente_id").filter(refPT=PersonalTrainer.objects.get(username="larrywheels")))
+        'subscritores': User.objects.all().filter(id__in=Subscricao.objects.values_list("refCliente_id").filter(refPT=User.objects.get(id=request.user.id)))
     }
     print(context['subscritores'])
     return render(request,'planMaker.html',{'defaults': context})
@@ -135,7 +139,7 @@ class PlanAdder(View):
             preco=data['preco'],
             periodoBloco=data['duracaoBloco'],
             nrBlocos=data['nrBlocos'],
-            refPersonalTrainer=PersonalTrainer.objects.filter(username='larrywheels').first()
+            refPersonalTrainer=User.objects.filter(id=request.user.id).first()
         )
         
         for reg in exercicios:
@@ -145,9 +149,7 @@ class PlanAdder(View):
                 nrBloco=reg['bloco'],
                 periodoBloco=reg['duracao'],
                 reps=reg['reps'],
-                sets=reg['sets'],
-                pesoUsado=0,
-                feito=0
+                sets=reg['sets']
             ) 
 
         
@@ -201,7 +203,6 @@ class BuyPlan(View):
             return HttpResponseRedirect("/comprasSubscricao/"+data['idPlano'])
         
 
-        print(data)
         if data["pagamento"] == 'credito':
             dataC = date( int(data['Ano']),int(data['mes']),1)
             cvvC = data['CVV']
@@ -252,7 +253,7 @@ def exerciciosPlano(request,idPlano):
         
     return render(request,'exerciciosPlano.html',{'plano': PlanoTreino.objects.filter(id=idPlano).first(),'exercicios': contextExercicio })
 
-@login_required(login_url='login/')
+
 def register_request(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)

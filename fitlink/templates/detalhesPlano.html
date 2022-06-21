@@ -7,10 +7,9 @@
       </div>
       <div class="card card-body mx-3 mx-md-4 mt-n6">
          <p style="color:black;font-size:30px;font-family: Geneva, Verdana, sans-serif;">{{plano.titulo}}
-			<div style="position:relative;top:0px">Treinador: {{plano.refPersonalTrainer}}</div>
+			<div style="position:relative;top:0px">Treinador: {{plano.refPersonalTrainer.first_name}} {{plano.refPersonalTrainer.last_name}}</div>
          </p>
          <p>
-			<div style="float:left">{{plano.imagem}}</div>
 			<div style="border:1pt solid #808080;border-radius: 10px;padding:10px;bottom:15px">
 				<b style="color:black;font-size:20px">Descrição</b>
 				<p>{{plano.descricao}}</p>
@@ -21,10 +20,12 @@
          </p>
          <p></p>
          <p>
+            {%if user.groups.all.0.name == "Cliente" %}
 			 <div style="position:absolute;bottom:15px;right:15px">
 				 <a href="{% url 'comprasSubscricao' idPlano=plano.id %}"><button style="background-color:#adadad;"type="button" class="btn btn-primary active">Subscreve por {{plano.preco}}€/mês</button></a>
              
 			 </div>
+          {%endif%}
          </p>
       </div>
     </div>

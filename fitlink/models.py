@@ -4,11 +4,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Cliente(User):
-    pass
-
-class PersonalTrainer(User):
-    classificacao = models.IntegerField()
 
 class TipoPlano(models.Model):
     tipo = models.CharField(max_length = 255)
@@ -25,7 +20,7 @@ class PlanoTreino(models.Model):
     preco = models.FloatField()
     periodoBloco = models.IntegerField()
     nrBlocos = models.IntegerField()
-    refPersonalTrainer = models.ForeignKey(PersonalTrainer, on_delete=models.CASCADE)
+    refPersonalTrainer = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.titulo
@@ -66,5 +61,5 @@ class ExercicioPlano(models.Model):
 
 
 class Subscricao(models.Model):
-    refPT = models.ForeignKey(PersonalTrainer, on_delete=models.CASCADE)
-    refCliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    refPT = models.ForeignKey(User, on_delete=models.CASCADE, related_name='personal_trainer')
+    refCliente = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cliente')
